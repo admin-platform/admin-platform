@@ -14,8 +14,7 @@ var argv = require('yargs').argv;
 var rootPath = argv.rootPath || 'web/assets/';
 var adminRootPath = rootPath + 'admin/';
 var vendorPath = argv.vendorPath || 'vendor/';
-var vendorAdminPath = '';
-var vendorUiPath = '' === vendorPath ? '../UiBundle/' : vendorPath + 'sylius/ui-bundle/';
+var vendorUiPath = vendorPath + 'sylius/ui-bundle/';
 var nodeModulesPath = argv.nodeModulesPath || 'node_modules/';
 
 var paths = {
@@ -23,21 +22,17 @@ var paths = {
         js: [
             nodeModulesPath + 'jquery/dist/jquery.min.js',
             nodeModulesPath + 'semantic-ui-css/semantic.min.js',
-            vendorUiPath + 'Resources/private/js/**',
-            vendorAdminPath + 'Resources/private/js/**'
+            vendorUiPath + 'Resources/private/js/**'
         ],
         sass: [
-            vendorUiPath + 'Resources/private/sass/**',
-            vendorAdminPath + 'Resources/private/sass/**'
+            vendorUiPath + 'Resources/private/sass/**'
         ],
         css: [
             nodeModulesPath + 'semantic-ui-css/semantic.min.css',
-            vendorUiPath + 'Resources/private/css/**',
-            vendorAdminPath + 'Resources/private/css/**'
+            vendorUiPath + 'Resources/private/css/**'
         ],
         img: [
-            vendorUiPath + 'Resources/private/img/**',
-            vendorAdminPath + 'Resources/private/img/**'
+            vendorUiPath + 'Resources/private/img/**'
         ]
     }
 };
@@ -46,7 +41,7 @@ gulp.task('admin-js', function () {
     return gulp.src(paths.admin.js)
         .pipe(concat('app.js'))
         .pipe(gulpif(env === 'prod', uglify()))
-        .pipe(sourcemaps.write('./'))
+        .pipe(gulpif(env === 'prod', sourcemaps.write('./')))
         .pipe(gulp.dest(adminRootPath + 'js/'))
         ;
 });
@@ -67,7 +62,7 @@ gulp.task('admin-css', function() {
         .pipe(order(['css-files.css', 'sass-files.scss']))
         .pipe(concat('style.css'))
         .pipe(gulpif(env === 'prod', uglifycss()))
-        .pipe(sourcemaps.write('./'))
+        .pipe(gulpif(env === 'prod', sourcemaps.write('./')))
         .pipe(gulp.dest(adminRootPath + 'css/'))
         .pipe(livereload())
         ;
@@ -75,7 +70,7 @@ gulp.task('admin-css', function() {
 
 gulp.task('admin-img', function() {
     return gulp.src(paths.admin.img)
-        .pipe(sourcemaps.write('./'))
+        .pipe(gulpif(env === 'prod', sourcemaps.write('./')))
         .pipe(gulp.dest(adminRootPath + 'img/'))
         ;
 });

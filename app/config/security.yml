@@ -22,10 +22,10 @@ security:
             pattern: ^/admin
             form_login:
                 provider: platform_admin_user_provider
-                login_path: platform_admin_login
-                check_path: platform_admin_login_check
-                failure_path: platform_admin_login
-                default_target_path: platform_admin_dashboard_index
+                login_path: admin_platform_admin_login
+                check_path: admin_platform_admin_login_check
+                failure_path: admin_platform_admin_login
+                default_target_path: admin_platform_admin_dashboard_index
                 use_forward: false
                 use_referer: true
 #                csrf_token_generator: security.csrf.token_manager
@@ -38,8 +38,8 @@ security:
                 lifetime: 31536000
                 remember_me_parameter: _remember_me
             logout:
-                path: platform_admin_logout
-                target: platform_admin_login
+                path: admin_platform_admin_logout
+                target: admin_platform_admin_login
             anonymous: true
 
         main:
