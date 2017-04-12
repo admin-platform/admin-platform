@@ -32,18 +32,18 @@
 
         "admin-platform/admin-bundle": "dev-master",
 
-        "sylius/grid": "v1.0.0-beta.1",
-        "sylius/grid-bundle": "v1.0.0-beta.1",
-        "sylius/locale": "v1.0.0-beta.1",
-        "sylius/locale-bundle": "v1.0.0-beta.1",
-        "sylius/mailer": "v1.0.0-beta.1",
-        "sylius/mailer-bundle": "v1.0.0-beta.1",
-        "sylius/registry": "v1.0.0-beta.1",
-        "sylius/resource": "v1.0.0-beta.1",
-        "sylius/resource-bundle": "v1.0.0-beta.1",
-        "sylius/ui-bundle": "v1.0.0-beta.1",
-        "sylius/user": "v1.0.0-beta.1",
-        "sylius/user-bundle": "v1.0.0-beta.1"
+        "sylius/grid": "v1.0.0-beta.2",
+        "sylius/grid-bundle": "v1.0.0-beta.2",
+        "sylius/locale": "v1.0.0-beta.2",
+        "sylius/locale-bundle": "v1.0.0-beta.2",
+        "sylius/mailer": "v1.0.0-beta.2",
+        "sylius/mailer-bundle": "v1.0.0-beta.2",
+        "sylius/registry": "v1.0.0-beta.2",
+        "sylius/resource": "v1.0.0-beta.2",
+        "sylius/resource-bundle": "v1.0.0-beta.2",
+        "sylius/ui-bundle": "v1.0.0-beta.2",
+        "sylius/user": "v1.0.0-beta.2",
+        "sylius/user-bundle": "v1.0.0-beta.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
