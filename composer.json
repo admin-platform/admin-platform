@@ -30,7 +30,7 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "twig/twig": "^1.0||^2.0",
 
-        "admin-platform/admin-bundle": "dev-master",
+        "admin-platform/admin-bundle": "^0.1.0",
 
         "sylius/grid": "v1.0.0-beta.2",
         "sylius/grid-bundle": "v1.0.0-beta.2",
