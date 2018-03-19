@@ -1,8 +1,8 @@
 # To get started with security, check out the documentation:
-# http://symfony.com/doc/current/security.html
+# https://symfony.com/doc/current/security.html
 security:
 
-    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         platform_admin_user_provider:
             id: sylius.admin_user_provider.email_or_name_based
@@ -17,11 +17,12 @@ security:
             security: false
 
         admin:
+            logout_on_user_change: true
             switch_user: true
             context: admin
             pattern: ^/admin
+            provider: platform_admin_user_provider
             form_login:
-                provider: platform_admin_user_provider
                 login_path: admin_platform_admin_login
                 check_path: admin_platform_admin_login_check
                 failure_path: admin_platform_admin_login
@@ -43,14 +44,15 @@ security:
             anonymous: true
 
         main:
+            logout_on_user_change: true
             anonymous: ~
             # activate different ways to authenticate
 
-            # http_basic: ~
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
 
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            #form_login: ~
 
     access_control:
         - { path: ^/admin/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
