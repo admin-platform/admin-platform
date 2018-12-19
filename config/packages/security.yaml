@@ -1,0 +1,56 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+            platform_admin_user_provider:
+                id: sylius.admin_user_provider.email_or_name_based
+
+    encoders:
+        Sylius\Component\User\Model\UserInterface: sha512
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        admin:
+            logout_on_user_change: true
+            switch_user: true
+            context: admin
+            pattern: ^/admin
+            provider: platform_admin_user_provider
+            form_login:
+                login_path: admin_platform_admin_login
+                check_path: admin_platform_admin_login_check
+                failure_path: admin_platform_admin_login
+                default_target_path: admin_platform_admin_dashboard_index
+                use_forward: false
+                use_referer: true
+#                csrf_token_generator: security.csrf.token_manager
+#                csrf_parameter: _csrf_admin_security_token
+#                csrf_token_id: admin_authenticate
+            remember_me:
+                secret: '%env(APP_SECRET)%'
+                path: /admin
+                name: APP_ADMIN_REMEMBER_ME
+                lifetime: 31536000
+                remember_me_parameter: _remember_me
+            logout:
+                path: admin_platform_admin_logout
+                target: admin_platform_admin_login
+            anonymous: true
+        main:
+            anonymous: true
+
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/admin/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login-check, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "^/admin.*", role: ROLE_ADMINISTRATION_ACCESS }
