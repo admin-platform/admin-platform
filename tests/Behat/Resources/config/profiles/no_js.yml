@@ -1,0 +1,4 @@
+no_js:
+    gherkin:
+        filters:
+            tags: '~@javascript'

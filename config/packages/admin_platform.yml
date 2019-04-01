@@ -1,0 +1,3 @@
+imports:
+    - { resource: "@PlatformAdminBundle/Resources/config/app/config.yml" }
+    - { resource: "@PlatformAdminBundle/Resources/config/app/doctrine_driver.yml" }

@@ -1,0 +1,9 @@
+sylius_fixtures:
+    suites:
+        default:
+            fixtures:
+                sylius_admin_user:
+                    priority: 0
+                    options:
+                        users:
+                            - { email: admin@example.com, password: admin, username: admin }
