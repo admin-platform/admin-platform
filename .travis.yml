@@ -1,0 +1,25 @@
+dist: xenial
+language: php
+php:
+  - "7.2"
+
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - chromium-chromedriver
+  
+services:
+  - mysql
+  
+env:
+  APP_ENV=test
+  DATABASE_URL=mysql://root:@127.0.0.1:3306/admin_platform
+  
+before_script:
+  - composer install
+  - bin/console server:start 127.0.0.1:8000
+  - chromedriver --url-base=wd/hub --port=4444 &
+
+script: bin/behat
