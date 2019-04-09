@@ -1,0 +1,4 @@
+chrome:
+    extensions:
+        Behat\MinkExtension:
+            default_session: chrome

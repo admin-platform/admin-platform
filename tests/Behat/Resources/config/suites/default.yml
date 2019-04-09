@@ -1,0 +1,6 @@
+default:
+    suites:
+        example:
+            contexts:
+                - App\Tests\Behat\Context\AdminContext: ~
+                - App\Tests\Behat\Context\FixtureContext: ~

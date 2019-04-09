@@ -1,0 +1,26 @@
+default:
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://localhost:8000
+            browser_name: chrome
+            default_session: symfony
+            javascript_session: chrome
+            sessions:
+                symfony:
+                    symfony2: ~
+                chrome:
+                    selenium2:
+                        wd_host: "http://localhost:4444/wd/hub"
+                        capabilities:
+                            chrome:
+                                switches:
+                                    - "--headless"
+                                    - "--disable-gpu"
+                                    - "--no-sandbox"
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: tests/bootstrap.php
+                path: src/Kernel.php
+                class: App\Kernel
+                env: test
+                debug: false
