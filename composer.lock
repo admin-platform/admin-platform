@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "576bd12e52afd2c1dc807596476a837e",
+    "content-hash": "9cb6a8dbdd469669a4a39228793e95bf",
     "packages": [
         {
             "name": "admin-platform/admin-bundle",
-            "version": "v0.5.0",
+            "version": "v0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/admin-platform/AdminBundle.git",
-                "reference": "12f2dc107514ac7d04000a581df4df3a34831528"
+                "reference": "ef98ee1020bc6b05e7b70bff7c88ab9acbfdeb3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/admin-platform/AdminBundle/zipball/12f2dc107514ac7d04000a581df4df3a34831528",
-                "reference": "12f2dc107514ac7d04000a581df4df3a34831528",
+                "url": "https://api.github.com/repos/admin-platform/AdminBundle/zipball/ef98ee1020bc6b05e7b70bff7c88ab9acbfdeb3f",
+                "reference": "ef98ee1020bc6b05e7b70bff7c88ab9acbfdeb3f",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
                 "MIT"
             ],
             "description": "Admin platform for Symfony projects.",
-            "time": "2019-04-09T10:15:02+00:00"
+            "time": "2019-10-17T09:53:46+00:00"
         },
         {
             "name": "behat/transliterator",
