@@ -5,7 +5,7 @@
         "php": "^7.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "admin-platform/admin-bundle": "v0.5.0",
+        "admin-platform/admin-bundle": "^0.5.2",
         "sylius/fixtures-bundle": "^1.4",
         "symfony/console": "4.2.*",
         "symfony/dotenv": "4.2.*",

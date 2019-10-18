@@ -22,7 +22,10 @@ namespace App\Tests\Behat\Context;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
+use Platform\Bundle\AdminBundle\Model\AdminUserInterface;
+use Sylius\Component\User\Repository\UserRepositoryInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Webmozart\Assert\Assert;
 
 /**
  * Class AdminContext.
@@ -33,6 +36,11 @@ class AdminContext extends MinkContext implements KernelAwareContext
      * @var KernelInterface
      */
     private $kernel;
+
+    /**
+     * @var string|null
+     */
+    private $passwordHash;
 
     /**
      * {@inheritdoc}
@@ -114,5 +122,37 @@ class AdminContext extends MinkContext implements KernelAwareContext
     {
         $this->fillField('Username', $name);
         $this->pressButton('Save changes');
+    }
+
+    /**
+     * @Given /^I have written down password hash of "([^"]*)"$/
+     *
+     * @param string $username
+     */
+    public function iHaveWrittenDownPasswordHashOf(string $username): void
+    {
+        /** @var UserRepositoryInterface $userRepository */
+        $userRepository = $this->kernel->getContainer()->get('sylius.repository.admin_user');
+        /** @var AdminUserInterface $user */
+        $user = $userRepository->findOneBy(['username' => $username]);
+        $this->passwordHash = $user->getPassword();
+    }
+
+    /**
+     * @Given /^Password hash of "([^"]*)" should differ from hash i have written down$/
+     *
+     * @param string $username
+     */
+    public function passwordHashOfShouldDifferFromHashIHaveWrittenDown(string $username): void
+    {
+        Assert::notNull($this->passwordHash, 'Password hash was not stored');
+        $this->kernel->getContainer()->get('sylius.manager.admin_user')->clear();
+
+        /** @var UserRepositoryInterface $userRepository */
+        $userRepository = $this->kernel->getContainer()->get('sylius.repository.admin_user');
+        /** @var AdminUserInterface $user */
+        $user = $userRepository->findOneBy(['username' => $username]);
+
+        Assert::notSame($user->getPassword(), $this->passwordHash);
     }
 }
