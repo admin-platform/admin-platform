@@ -4077,36 +4077,45 @@
         },
         {
             "name": "symfony/contracts",
-            "version": "v1.0.2",
+            "version": "v1.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/contracts.git",
-                "reference": "1aa7ab2429c3d594dd70689604b5cf7421254cdf"
+                "reference": "f51bca9de06b7a25b19a4155da7bebad099a5def"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/contracts/zipball/1aa7ab2429c3d594dd70689604b5cf7421254cdf",
-                "reference": "1aa7ab2429c3d594dd70689604b5cf7421254cdf",
+                "url": "https://api.github.com/repos/symfony/contracts/zipball/f51bca9de06b7a25b19a4155da7bebad099a5def",
+                "reference": "f51bca9de06b7a25b19a4155da7bebad099a5def",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3"
-            },
-            "require-dev": {
+                "php": "^7.1.3",
                 "psr/cache": "^1.0",
                 "psr/container": "^1.0"
             },
+            "replace": {
+                "symfony/cache-contracts": "self.version",
+                "symfony/event-dispatcher-contracts": "self.version",
+                "symfony/http-client-contracts": "self.version",
+                "symfony/service-contracts": "self.version",
+                "symfony/translation-contracts": "self.version"
+            },
+            "require-dev": {
+                "symfony/polyfill-intl-idn": "^1.10"
+            },
             "suggest": {
-                "psr/cache": "When using the Cache contracts",
-                "psr/container": "When using the Service contracts",
-                "symfony/cache-contracts-implementation": "",
-                "symfony/service-contracts-implementation": "",
-                "symfony/translation-contracts-implementation": ""
+                "psr/event-dispatcher": "When using the EventDispatcher contracts",
+                "symfony/cache-implementation": "",
+                "symfony/event-dispatcher-implementation": "",
+                "symfony/http-client-implementation": "",
+                "symfony/service-implementation": "",
+                "symfony/translation-implementation": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -4141,7 +4150,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2018-12-05T08:06:11+00:00"
+            "time": "2019-11-07T12:44:51+00:00"
         },
         {
             "name": "symfony/debug",
@@ -4201,22 +4210,22 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v4.2.5",
+            "version": "v4.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "1806e43ff6bff57398d33b326cd753a12d9f434f"
+                "reference": "39fe71bc481483f255e388a658c8f1104fec037e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/1806e43ff6bff57398d33b326cd753a12d9f434f",
-                "reference": "1806e43ff6bff57398d33b326cd753a12d9f434f",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/39fe71bc481483f255e388a658c8f1104fec037e",
+                "reference": "39fe71bc481483f255e388a658c8f1104fec037e",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1.3",
                 "psr/container": "^1.0",
-                "symfony/contracts": "^1.0"
+                "symfony/contracts": "^1.1.1"
             },
             "conflict": {
                 "symfony/config": "<4.2",
@@ -4226,7 +4235,7 @@
             },
             "provide": {
                 "psr/container-implementation": "1.0",
-                "symfony/service-contracts-implementation": "1.0"
+                "symfony/service-implementation": "1.0"
             },
             "require-dev": {
                 "symfony/config": "~4.2",
@@ -4270,7 +4279,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2019-03-30T15:58:42+00:00"
+            "time": "2019-07-19T12:05:51+00:00"
         },
         {
             "name": "symfony/doctrine-bridge",
@@ -6673,7 +6682,7 @@
                     "email": "adrien.brault@gmail.com"
                 },
                 {
-                    "name": "William Durand",
+                    "name": "William DURAND",
                     "email": "william.durand1@gmail.com"
                 }
             ],
@@ -7117,12 +7126,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/Mink.git",
-                "reference": "d5ee350c40baff5f331a05ebdbe1927345c9ac8b"
+                "reference": "a534fe7dac9525e8e10ca68e737c3d7e5058ec83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/Mink/zipball/d5ee350c40baff5f331a05ebdbe1927345c9ac8b",
-                "reference": "d5ee350c40baff5f331a05ebdbe1927345c9ac8b",
+                "url": "https://api.github.com/repos/minkphp/Mink/zipball/a534fe7dac9525e8e10ca68e737c3d7e5058ec83",
+                "reference": "a534fe7dac9525e8e10ca68e737c3d7e5058ec83",
                 "shasum": ""
             },
             "require": {
@@ -7130,7 +7139,7 @@
                 "symfony/css-selector": "^2.7|^3.0|^4.0"
             },
             "require-dev": {
-                "symfony/phpunit-bridge": "^3.3|^4.0"
+                "symfony/phpunit-bridge": "^4.2"
             },
             "suggest": {
                 "behat/mink-browserkit-driver": "extremely fast headless driver for Symfony\\Kernel-based apps (Sf2, Silex)",
@@ -7168,7 +7177,7 @@
                 "testing",
                 "web"
             ],
-            "time": "2018-06-24T20:08:51+00:00"
+            "time": "2019-07-15T12:45:29+00:00"
         },
         {
             "name": "behat/mink-browserkit-driver",
@@ -7176,12 +7185,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/MinkBrowserKitDriver.git",
-                "reference": "4a0b453c8da1f6035f526a8532c293bba742d00d"
+                "reference": "98cdff187a3c3759afb6db90c03939c99e8a1428"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/MinkBrowserKitDriver/zipball/4a0b453c8da1f6035f526a8532c293bba742d00d",
-                "reference": "4a0b453c8da1f6035f526a8532c293bba742d00d",
+                "url": "https://api.github.com/repos/minkphp/MinkBrowserKitDriver/zipball/98cdff187a3c3759afb6db90c03939c99e8a1428",
+                "reference": "98cdff187a3c3759afb6db90c03939c99e8a1428",
                 "shasum": ""
             },
             "require": {
@@ -7224,7 +7233,7 @@
                 "browser",
                 "testing"
             ],
-            "time": "2018-12-09T10:17:21+00:00"
+            "time": "2019-09-05T08:06:16+00:00"
         },
         {
             "name": "behat/mink-extension",
@@ -7287,22 +7296,22 @@
         },
         {
             "name": "behat/mink-selenium2-driver",
-            "version": "dev-master",
+            "version": "1.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/MinkSelenium2Driver.git",
-                "reference": "8684ee4e634db7abda9039ea53545f86fc1e105a"
+                "reference": "0a09c4341621fca937a726827611b20ce3e2c259"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/MinkSelenium2Driver/zipball/8684ee4e634db7abda9039ea53545f86fc1e105a",
-                "reference": "8684ee4e634db7abda9039ea53545f86fc1e105a",
+                "url": "https://api.github.com/repos/minkphp/MinkSelenium2Driver/zipball/0a09c4341621fca937a726827611b20ce3e2c259",
+                "reference": "0a09c4341621fca937a726827611b20ce3e2c259",
                 "shasum": ""
             },
             "require": {
                 "behat/mink": "~1.7@dev",
                 "instaclick/php-webdriver": "~1.1",
-                "php": ">=5.3.1"
+                "php": ">=5.4"
             },
             "require-dev": {
                 "mink/driver-testsuite": "dev-master"
@@ -7324,14 +7333,14 @@
             ],
             "authors": [
                 {
-                    "name": "Konstantin Kudryashov",
-                    "email": "ever.zet@gmail.com",
-                    "homepage": "http://everzet.com"
-                },
-                {
                     "name": "Pete Otaqui",
                     "email": "pete@otaqui.com",
                     "homepage": "https://github.com/pete-otaqui"
+                },
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com",
+                    "homepage": "http://everzet.com"
                 }
             ],
             "description": "Selenium2 (WebDriver) driver for Mink framework",
@@ -7344,7 +7353,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2018-10-10T12:39:06+00:00"
+            "time": "2019-09-02T09:46:54+00:00"
         },
         {
             "name": "behat/symfony2-extension",
