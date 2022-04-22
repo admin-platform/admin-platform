@@ -1,6 +1,0 @@
-security:
-    firewalls:
-        main:
-            guard:
-                authenticators:
-                    - App\Tests\TestBasicAuthenticator

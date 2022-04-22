@@ -6,4 +6,4 @@ sylius_fixtures:
                     priority: 0
                     options:
                         locales:
-                            - { code: en }
+                            - { code: en_US }

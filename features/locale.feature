@@ -5,8 +5,8 @@ Feature:
 
   Background:
     Given There is a locale
-    And There is an admin user "administrator"
-    And I am logged in as "administrator"
+    And There is an admin user "admin"
+    And I am logged in as "admin"
 
   Scenario: List locales
     Given I am on "/locales/"

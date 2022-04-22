@@ -19,42 +19,42 @@ declare(strict_types=1);
 
 namespace App\Tests\Behat\Context;
 
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\MinkExtension\Context\MinkContext;
-use Behat\Symfony2Extension\Context\KernelAwareContext;
+use Behat\MinkExtension\Context\RawMinkContext;
+use Doctrine\Persistence\ObjectManager;
 use Platform\Bundle\AdminBundle\Model\AdminUserInterface;
 use Sylius\Component\User\Repository\UserRepositoryInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Webmozart\Assert\Assert;
 
-/**
- * Class AdminContext.
- */
-class AdminContext extends MinkContext implements KernelAwareContext
+class AdminContext extends RawMinkContext
 {
-    /**
-     * @var KernelInterface
-     */
-    private $kernel;
+    private MinkContext $minkContext;
 
-    /**
-     * @var string|null
-     */
-    private $passwordHash;
+    private UserRepositoryInterface $adminUserRepository;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setKernel(KernelInterface $kernel): void
+    private ObjectManager $userManager;
+
+    private ?string $passwordHash;
+
+    public function __construct(UserRepositoryInterface $adminUserRepository, ObjectManager $userManager)
     {
-        $this->kernel = $kernel;
+        $this->adminUserRepository = $adminUserRepository;
+        $this->userManager = $userManager;
+    }
+
+    /** @BeforeScenario */
+    public function gatherContexts(BeforeScenarioScope $scope): void
+    {
+        $environment = $scope->getEnvironment();
+
+        $this->minkContext = $environment->getContext(MinkContext::class);
     }
 
     /**
      * @When /^I login in as "([^"]*)"$/
      * @Given /^I am logged in as "([^"]*)"$/
-     *
-     * @param string $name
      */
     public function iLoginAsUser(string $name): void
     {
@@ -66,46 +66,32 @@ class AdminContext extends MinkContext implements KernelAwareContext
         }
     }
 
-    /**
-     * @Then /^I should see "([^"]*)" in grid$/
-     * @param string $text
-     */
-    public function iShouldSeeInGrid(string $text)
+    /** @Then /^I should see "([^"]*)" in grid$/ */
+    public function iShouldSeeInGrid(string $text): void
     {
-        $this->assertElementContainsText('.ui.sortable.stackable.celled.table', $text);
+        $this->minkContext->assertElementContainsText('.ui.sortable.stackable.celled.table', $text);
     }
 
-    /**
-     * @Given /^I should not see "([^"]*)" in grid$/
-     * @param string $text
-     */
-    public function iShouldNotSeeInGrid(string $text)
+    /** @Given /^I should not see "([^"]*)" in grid$/ */
+    public function iShouldNotSeeInGrid(string $text): void
     {
-        $this->assertElementNotContainsText('.ui.sortable.stackable.celled.table', $text);
+        $this->minkContext->assertElementNotContainsText('.ui.sortable.stackable.celled.table', $text);
     }
 
-    /**
-     * @Then /^I should see "([^"]*)" flash message$/
-     * @param string $text
-     */
-    public function iShouldSeeFlashMessage(string $text)
+    /** @Then /^I should see "([^"]*)" flash message$/ */
+    public function iShouldSeeFlashMessage(string $text): void
     {
-        $this->assertElementContainsText('.sylius-flash-message', $text);
+        $this->minkContext->assertElementContainsText('.sylius-flash-message', $text);
     }
 
-    /**
-     * @Given /^I am on users page$/
-     */
-    public function iAmOnUsersPage()
+    /** @Given /^I am on users page$/ */
+    public function iAmOnUsersPage(): void
     {
-        $this->visit('/users');
+        $this->minkContext->visit('/users');
     }
 
-    /**
-     * @Then /^I edit "([^"]*)" from grid$/
-     * @param string $text
-     */
-    public function iEditFromGrid(string $text)
+    /** @Then /^I edit "([^"]*)" from grid$/ */
+    public function iEditFromGrid(string $text): void
     {
         $this->getSession()->getPage()->find(
             'xpath',
@@ -114,44 +100,29 @@ class AdminContext extends MinkContext implements KernelAwareContext
         )->click();
     }
 
-    /**
-     * @Given /^I change user name to "([^"]*)"$/
-     * @param string $name
-     */
-    public function iChangeUserNameTo(string $name)
+    /** @Given /^I change user name to "([^"]*)"$/ */
+    public function iChangeUserNameTo(string $name): void
     {
-        $this->fillField('Username', $name);
-        $this->pressButton('Save changes');
+        $this->minkContext->fillField('Username', $name);
+        $this->minkContext->pressButton('Save changes');
     }
 
-    /**
-     * @Given /^I have written down password hash of "([^"]*)"$/
-     *
-     * @param string $username
-     */
+    /** @Given /^I have written down password hash of "([^"]*)"$/ */
     public function iHaveWrittenDownPasswordHashOf(string $username): void
     {
-        /** @var UserRepositoryInterface $userRepository */
-        $userRepository = $this->kernel->getContainer()->get('sylius.repository.admin_user');
         /** @var AdminUserInterface $user */
-        $user = $userRepository->findOneBy(['username' => $username]);
+        $user = $this->adminUserRepository->findOneBy(['username' => $username]);
         $this->passwordHash = $user->getPassword();
     }
 
-    /**
-     * @Given /^Password hash of "([^"]*)" should differ from hash i have written down$/
-     *
-     * @param string $username
-     */
+    /** @Given /^Password hash of "([^"]*)" should differ from hash i have written down$/ */
     public function passwordHashOfShouldDifferFromHashIHaveWrittenDown(string $username): void
     {
         Assert::notNull($this->passwordHash, 'Password hash was not stored');
-        $this->kernel->getContainer()->get('sylius.manager.admin_user')->clear();
+        $this->userManager->clear();
 
-        /** @var UserRepositoryInterface $userRepository */
-        $userRepository = $this->kernel->getContainer()->get('sylius.repository.admin_user');
         /** @var AdminUserInterface $user */
-        $user = $userRepository->findOneBy(['username' => $username]);
+        $user = $this->adminUserRepository->findOneBy(['username' => $username]);
 
         Assert::notSame($user->getPassword(), $this->passwordHash);
     }

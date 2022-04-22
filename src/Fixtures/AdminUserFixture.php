@@ -19,42 +19,25 @@ declare(strict_types=1);
 
 namespace App\Fixtures;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Platform\Bundle\AdminBundle\Model\AdminUserInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-/**
- * Class AdminUserFixture.
- */
 class AdminUserFixture extends AbstractFixture
 {
-    /**
-     * @var ObjectManager
-     */
-    private $manager;
+    private ObjectManager $manager;
 
-    /**
-     * @var FactoryInterface
-     */
-    private $factory;
+    private FactoryInterface $factory;
 
-    /**
-     * LocaleFixture constructor.
-     *
-     * @param ObjectManager $manager
-     * @param FactoryInterface $factory
-     */
     public function __construct(ObjectManager $manager, FactoryInterface $factory)
     {
         $this->manager = $manager;
         $this->factory = $factory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function load(array $options): void
     {
         foreach ($options['users'] as $userData) {
@@ -79,17 +62,13 @@ class AdminUserFixture extends AbstractFixture
         $this->manager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function getName(): string
     {
         return 'sylius_admin_user';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     protected function configureOptionsNode(ArrayNodeDefinition $optionsNode): void
     {
         $optionsNode
@@ -110,7 +89,6 @@ class AdminUserFixture extends AbstractFixture
                         ->scalarNode('first_name')->defaultNull()->end()
                         ->scalarNode('last_name')->defaultNull()->end()
                         ->scalarNode('username')->defaultNull()->end()
-                        ->scalarNode('locale')->defaultValue('en')->end()
-        ;
+                        ->scalarNode('locale')->defaultValue('en_US')->end();
     }
 }

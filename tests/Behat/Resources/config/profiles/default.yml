@@ -7,7 +7,7 @@ default:
             javascript_session: chrome
             sessions:
                 symfony:
-                    symfony2: ~
+                    symfony: ~
                 chrome:
                     selenium2:
                         wd_host: "http://localhost:4444/wd/hub"
@@ -17,10 +17,21 @@ default:
                                     - "--headless"
                                     - "--disable-gpu"
                                     - "--no-sandbox"
-        Behat\Symfony2Extension:
+                                prefs:
+                                    profile:
+                                        default_content_setting_values:
+                                            notifications: 2
+
+        FriendsOfBehat\SymfonyExtension:
+            bootstrap: tests/bootstrap.php
             kernel:
-                bootstrap: tests/bootstrap.php
                 path: src/Kernel.php
                 class: App\Kernel
-                env: test
+                environment: test
                 debug: false
+
+        FriendsOfBehat\VariadicExtension: ~
+
+        FriendsOfBehat\SuiteSettingsExtension:
+            paths:
+                - "features"

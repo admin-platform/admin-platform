@@ -20,108 +20,70 @@ declare(strict_types=1);
 namespace App\Tests\Behat\Context;
 
 use Behat\MinkExtension\Context\RawMinkContext;
-use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DriverManager;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\ORM\EntityManagerInterface;
 use Platform\Bundle\AdminBundle\Model\AdminUser;
 use Sylius\Component\Locale\Model\Locale;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-/**
- * Class FixtureContext.
- */
-class FixtureContext extends RawMinkContext implements KernelAwareContext
+use function sprintf;
+use function exec;
+
+class FixtureContext extends RawMinkContext
 {
-    /**
-     * @var KernelInterface
-     */
-    private $kernel;
+    private KernelInterface $kernel;
 
-    /**
-     * @var array
-     */
-    private $references = [];
+    private static bool $initialized = false;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setKernel(KernelInterface $kernel): void
+    private array $references = [];
+
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(KernelInterface $kernel, EntityManagerInterface $entityManager)
     {
         $this->kernel = $kernel;
+        $this->entityManager = $entityManager;
     }
 
-    /**
-     * @BeforeScenario
-     */
+    /** @BeforeScenario */
     public function initializeDatabase(): void
     {
-        static $initialized = false;
-        if ($initialized) {
+        if (self::$initialized) {
             return;
         }
 
-        $doctrine = $this->kernel->getContainer()->get('doctrine');
-        $this->dropAndCreateDatabase($doctrine->getConnection());
+        $this->dropAndCreateDatabase();
 
-        /** @var EntityManager $manager */
-        $manager = $doctrine->getManager();
-        $metadata = $manager->getMetadataFactory()->getAllMetadata();
-        $schemaTool = new SchemaTool($manager);
-        $schemaTool->createSchema($metadata);
-
-        $initialized = true;
+        self::$initialized = true;
     }
 
-    /**
-     * @AfterScenario
-     */
-    public function afterScenario(): void
+    private function dropAndCreateDatabase(): void
     {
-        (new ORMPurger($this->getManager()))->purge();
-        $this->references = [];
-    }
+        $connection = $this->entityManager->getConnection();
+        $schema = $connection->createSchemaManager();
+        $database = $connection->getDatabase();
 
-    /**
-     * @param Connection $originalConnection
-     */
-    private function dropAndCreateDatabase(Connection $originalConnection): void
-    {
-        $params = $originalConnection->getParams();
-
-        $dbName = $params['dbname'];
-        unset($params['url'], $params['dbname']);
-
-        $connection = DriverManager::getConnection($params);
-        $schema = $connection->getSchemaManager();
-
-        if (\in_array($dbName, $schema->listDatabases(), true)) {
-            $schema->dropDatabase($dbName);
-        }
-
-        $schema->createDatabase($dbName);
+        $schema->dropDatabase($database);
+        $schema->createDatabase($database);
+        $this->migrateSchema();
 
         $connection->close();
     }
 
-    /**
-     * @return EntityManager
-     */
-    private function getManager(): EntityManager
+    /** @AfterScenario */
+    public function afterScenario(): void
     {
-        return $this->kernel->getContainer()->get('doctrine.orm.default_entity_manager');
+        (new ORMPurger($this->entityManager))->purge();
+    }
+
+    private function migrateSchema(): void
+    {
+        exec(sprintf('php "%s/bin/console" doctrine:schema:update --force --env=test', $this->kernel->getProjectDir()));
     }
 
     /**
      * @Given /^There is an admin user "([^"]*)"$/
      * @Given /^There is an admin user "([^"]*)" with locale "([^"]*)"$/
-     * @param string $name
-     *
-     * @param string|null $locale
-     *
-     * @return AdminUser
      */
     public function thereIsAnAdminUser(string $name, string $locale = null): AdminUser
     {
@@ -131,14 +93,13 @@ class FixtureContext extends RawMinkContext implements KernelAwareContext
 
         $object = new AdminUser();
         $object->setUsername($name);
-        $object->setEmail($name . '@example.com');
+        $object->setEmail($name);
         $object->setPlainPassword($name);
         $object->setLocaleCode($this->thereIsALocale($locale)->getCode());
         $object->setEnabled(true);
 
-        $manager = $this->getManager();
-        $manager->persist($object);
-        $manager->flush();
+        $this->entityManager->persist($object);
+        $this->entityManager->flush();
 
         $this->references[AdminUser::class][$name] = $object;
 
@@ -148,14 +109,10 @@ class FixtureContext extends RawMinkContext implements KernelAwareContext
     /**
      * @Given /^There is a locale$/
      * @Given /^There is a locale "([^"]*)"$/
-     *
-     * @param string|null $locale
-     *
-     * @return Locale
      */
     public function thereIsALocale(string $locale = null): Locale
     {
-        if (null === $locale) {
+        if ($locale === null) {
             $locale = $this->kernel->getContainer()->getParameter('locale');
         }
 
@@ -166,9 +123,8 @@ class FixtureContext extends RawMinkContext implements KernelAwareContext
         $object = new Locale();
         $object->setCode($locale);
 
-        $manager = $this->getManager();
-        $manager->persist($object);
-        $manager->flush();
+        $this->entityManager->persist($object);
+        $this->entityManager->flush();
 
         $this->references[Locale::class][$locale] = $object;
 

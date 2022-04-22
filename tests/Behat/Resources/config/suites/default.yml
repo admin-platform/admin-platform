@@ -2,5 +2,7 @@ default:
     suites:
         example:
             contexts:
-                - App\Tests\Behat\Context\AdminContext: ~
-                - App\Tests\Behat\Context\FixtureContext: ~
+                - Behat\MinkExtension\Context\MinkContext
+                - App\Tests\Behat\Context\AdminContext
+                - App\Tests\Behat\Context\FixtureContext
+                - App\Tests\Behat\Context\ScreenshotContext
