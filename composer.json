@@ -1,35 +1,55 @@
 {
     "type": "project",
     "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "require": {
-        "php": "^7.2",
+        "php": "^8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "admin-platform/admin-bundle": "^0.5.2",
-        "sylius/fixtures-bundle": "^1.4",
-        "symfony/console": "4.2.*",
-        "symfony/dotenv": "4.2.*",
-        "symfony/flex": "^1.1",
-        "symfony/framework-bundle": "4.2.*",
-        "symfony/security-bundle": "4.2.*",
-        "symfony/swiftmailer-bundle": "^3.2",
-        "symfony/templating": "4.2.*",
-        "symfony/yaml": "4.2.*"
+        "admin-platform/admin-bundle": "^1.0",
+        "pagerfanta/doctrine-orm-adapter": "^3.6",
+        "pagerfanta/twig": "^3.6",
+        "sylius/fixtures-bundle": "^1.7",
+        "symfony/console": "5.4.*",
+        "symfony/dotenv": "5.4.*",
+        "symfony/flex": "^1.17|^2",
+        "symfony/framework-bundle": "5.4.*",
+        "symfony/mailer": "5.4.*",
+        "symfony/runtime": "5.4.*",
+        "symfony/security-bundle": "5.4.*",
+        "symfony/templating": "5.4.*",
+        "symfony/webpack-encore-bundle": "^1.14",
+        "symfony/yaml": "5.4.*"
     },
     "require-dev": {
-        "behat/behat": "^3.5",
-        "behat/mink": "^1.7@dev",
-        "behat/mink-browserkit-driver": "^1.3@dev",
-        "behat/mink-extension": "^2.3",
-        "behat/mink-selenium2-driver": "^1.3@dev",
-        "behat/symfony2-extension": "^2.1",
-        "phpunit/phpunit": "^8.0",
-        "symfony/debug-bundle": "4.2.*",
-        "symfony/profiler-pack": "^1.0",
-        "symfony/test-pack": "^1.0",
-        "symfony/web-server-bundle": "4.2.*"
+        "behat/behat": "^3.10",
+        "behat/mink-selenium2-driver": "^1.6",
+        "dmore/behat-chrome-extension": "^1.3",
+        "dmore/chrome-mink-driver": "^2.8",
+        "friends-of-behat/mink": "^1.10",
+        "friends-of-behat/mink-browserkit-driver": "^1.6",
+        "friends-of-behat/mink-debug-extension": "^2.1",
+        "friends-of-behat/mink-extension": "^2.6",
+        "friends-of-behat/page-object-extension": "^0.3.2",
+        "friends-of-behat/suite-settings-extension": "^1.1",
+        "friends-of-behat/symfony-extension": "^2.3",
+        "friends-of-behat/variadic-extension": "^1.5",
+        "phpstan/phpstan": "^1.5",
+        "phpstan/phpstan-doctrine": "^1.3",
+        "phpstan/phpstan-webmozart-assert": "^1.1",
+        "phpunit/phpunit": "^9.5",
+        "symfony/debug-bundle": "5.4.*",
+        "symfony/phpunit-bridge": "^6.0",
+        "symfony/web-profiler-bundle": "5.4.*"
     },
     "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "optimize-autoloader": true,
         "preferred-install": {
             "*": "dist"
         },
@@ -46,13 +66,9 @@
         }
     },
     "replace": {
-        "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php56": "*"
+        "symfony/polyfill-php72": "*"
     },
     "scripts": {
         "auto-scripts": {
@@ -72,7 +88,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "4.2.*"
+            "require": "5.4.*"
         }
     }
 }

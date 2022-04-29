@@ -1,6 +1,2 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
-
 platform_admin:
     resource: "@PlatformAdminBundle/Resources/config/routing.xml"

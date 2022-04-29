@@ -5,10 +5,10 @@ Feature: Homepage
 
   Background:
     Given There is a locale
-    And There is an admin user "administrator"
+    And There is an admin user "admin"
 
   Scenario: Open admin page logged in
-    Given I am logged in as "administrator"
+    Given I am logged in as "admin"
     When I go to "/"
     Then I should be on "/"
     And I should see "Admin platform"

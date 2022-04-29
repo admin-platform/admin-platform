@@ -1,8 +1,12 @@
 services:
-    # default configuration for services in *this* file
     _defaults:
         autowire: true
         autoconfigure: true
-        public: true
+        bind:
+            $projectDir: '%kernel.project_dir%'
+            $userManager: '@sylius.manager.admin_user'
+
+    App\Tests\Behat\:
+        resource: '../tests/Behat/*'
 
     App\Tests\TestBasicAuthenticator: ~
